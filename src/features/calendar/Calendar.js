@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import format from 'date-fns/format';
 
 //fns imports
 import startOfMonth from 'date-fns/startOfMonth';
@@ -11,7 +10,7 @@ import addMonths from 'date-fns/addMonths';
 import subMonths from 'date-fns/subMonths';
 import isSameMonth from 'date-fns/isSameMonth';
 import isSameDay from 'date-fns/isSameDay';
-import parse from 'date-fns/parse';
+import format from 'date-fns/format';
 
 // fortawesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,10 +20,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import './Calendar.css';
+import { Reminder } from './Reminder';
+import ModalImplementation from '../../components/modal';
+
+import moment from 'moment';
 
 export function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [reminders, setReminders] = useState([]);
+
+  const [showReminderModal, setShowReminderModal] = useState(false);
+
   const header = () => {
     const dateFormat = 'MMM yyyy';
     return (
@@ -61,6 +68,7 @@ export function Calendar() {
       </div>
     );
   };
+
   const days = () => {
     const dateFormat = 'iii';
     const days = [];
@@ -74,6 +82,7 @@ export function Calendar() {
     }
     return <div className="days row">{days}</div>;
   };
+
   const cells = () => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
@@ -102,6 +111,15 @@ export function Calendar() {
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '3px',
+              }}
+            >
+              {getReminders(day)}
+            </div>
           </div>
         );
         day = addDays(day, 1);
@@ -116,20 +134,78 @@ export function Calendar() {
     }
     return <div className="body">{rows}</div>;
   };
+
   const nextMonth = () => {
     setCurrentDate(addMonths(currentDate, 1));
   };
+
   const prevMonth = () => {
     setCurrentDate(subMonths(currentDate, 1));
   };
+
   const onDateClick = (day) => {
     setSelectedDate(day);
+    setShowReminderModal(true);
   };
+
+  const getReminders = (day) => {
+    return reminders
+      .filter((reminder) => {
+        return isSameDay(reminder.selectedDate, day);
+      })
+      .sort((a, b) => {
+        const tempA = a.time.format('hh:mm:ss a');
+        const tempB = b.time.format('hh:mm:ss a');
+
+        const temp1 = moment(tempA, 'hh:mm:ss a');
+        const temp2 = moment(tempB, 'hh:mm:ss a');
+
+        // const test = beginningTime.isBefore(endTime);
+        const test = temp1 - temp2;
+
+        return test;
+      })
+      .map((reminder, index) => {
+        return (
+          <Reminder
+            key={index}
+            label={reminder.label}
+            color={reminder.color}
+            day={day}
+          />
+        );
+      });
+  };
+
+  const addReminder = (id, label, city, time) => {
+    setReminders((reminders) =>
+      reminders.concat({
+        id,
+        selectedDate,
+        label,
+        city,
+        color: '#9cac7e',
+        time,
+      })
+    );
+    setShowReminderModal(false);
+  };
+
+  console.log('reminders', reminders);
+
   return (
     <div className="calendar">
       <div>{header()}</div>
       <div>{days()}</div>
       <div>{cells()}</div>
+      {showReminderModal && (
+        <ModalImplementation
+          show={showReminderModal}
+          hide={() => setShowReminderModal(false)}
+          title={'Add Reminder'}
+          addReminder={addReminder}
+        />
+      )}
     </div>
   );
 }

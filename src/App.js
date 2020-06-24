@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Calendar } from './features/calendar/Calendar';
 import './App.css';
 
