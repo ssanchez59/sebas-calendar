@@ -103,6 +103,7 @@ const ModalImplementation = (props) => {
     ''
   );
   const [currentWeatherIcon, setCurrentWeatherIcon] = useState('');
+  const [currentTemperature, setCurrentTemperature] = useState(null);
 
   const onTimeChange = (value) => {
     setTime(value);
@@ -110,12 +111,13 @@ const ModalImplementation = (props) => {
 
   const weatherSetter = async (e) => {
     const response = await axios['get'](
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${e.lat}&lon=${e.lng}&appid=410093601e4f6e50b574cb107349b63a`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${e.lat}&lon=${e.lng}&units=metric&appid=410093601e4f6e50b574cb107349b63a`
     );
     if (response.status === 200) {
       if (response.data.current.weather.length > 0) {
         setCurrentWeatherDescription(response.data.current.weather[0].main);
         setCurrentWeatherIcon(response.data.current.weather[0].icon);
+        setCurrentTemperature(response.data.current.temp);
       }
     }
   };
@@ -232,15 +234,28 @@ const ModalImplementation = (props) => {
               <label>
                 <b>Current Weather in {city.label}</b>
               </label>
-              <img
-                src={getWeatherIcon()}
-                alt=""
+              <div
                 style={{
-                  width: '40px',
-                  height: '40px',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
                 }}
-              />
-              <label>{currentWeatherDescription}</label>
+              >
+                <img
+                  src={getWeatherIcon()}
+                  alt=""
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                  }}
+                />
+                <label style={{ marginBottom: '0px', marginTop: '5px' }}>
+                  {currentWeatherDescription}
+                </label>
+                <label style={{ marginBottom: '0px', marginTop: '5px' }}>
+                  {currentTemperature} {String.fromCharCode(176)} C
+                </label>
+              </div>
             </div>
           </div>
         </div>
