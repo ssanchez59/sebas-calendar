@@ -98,7 +98,7 @@ export function Calendar() {
                 : ''
             }`}
             key={day}
-            onClick={() => onDateClick(parse(cloneDay))}
+            onClick={() => onDateClick(cloneDay)}
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
@@ -123,7 +123,6 @@ export function Calendar() {
     setCurrentDate(subMonths(currentDate, 1));
   };
   const onDateClick = (day) => {
-    console.log('myDay', day);
     setSelectedDate(day);
   };
   return (
