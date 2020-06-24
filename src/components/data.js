@@ -1,9 +1,33 @@
 export const cities = [
-  { label: 'Bogota', value: 'BOG' },
-  { label: 'New York', value: 'NYC' },
-  { label: 'Barcelona', value: 'BCN' },
-  { label: 'Shanghai', value: 'SHA' },
-  { label: 'Sydney', value: 'SYD' },
+  { label: 'Bogota', value: 'BOG', id: 3688689, lat: 4.60971, lng: -74.081749 },
+  {
+    label: 'New York',
+    value: 'NYC',
+    id: 5128581,
+    lat: 40.714272,
+    lng: -74.005966,
+  },
+  {
+    label: 'Barcelona',
+    value: 'BCN',
+    id: 3128760,
+    lat: 41.38879,
+    lng: 2.15899,
+  },
+  {
+    label: 'Shanghai',
+    value: 'SHA',
+    id: 1796236,
+    lat: 31.222219,
+    lng: 121.458061,
+  },
+  {
+    label: 'Sydney',
+    value: 'SYD',
+    id: 2147714,
+    lat: -33.867851,
+    lng: 151.207321,
+  },
 ];
 
 export const colorOptions = [
