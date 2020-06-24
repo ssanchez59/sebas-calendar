@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 
 //fns imports
 import startOfMonth from 'date-fns/startOfMonth';
@@ -23,12 +25,11 @@ import './Calendar.css';
 import { Reminder } from './Reminder';
 import ModalImplementation from '../../components/modal';
 
-import moment from 'moment';
-
 export function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [reminders, setReminders] = useState([]);
+  const [selectedReminder, setSelectedReminder] = useState(null);
 
   const [showReminderModal, setShowReminderModal] = useState(false);
 
@@ -169,25 +170,53 @@ export function Calendar() {
         return (
           <Reminder
             key={index}
+            id={reminder.id}
             label={reminder.label}
             color={reminder.color}
             day={day}
+            editReminder={editReminder}
+            deleteReminder={deleteReminder}
           />
         );
       });
   };
 
   const addReminder = (id, label, city, time, color) => {
-    setReminders((reminders) =>
-      reminders.concat({
+    if (id) {
+      const foundIndex = reminders.findIndex((x) => x.id === id);
+      reminders[foundIndex] = {
         id,
-        selectedDate,
         label,
         city,
-        color: color.color,
         time,
-      })
-    );
+        color,
+        selectedDate,
+      };
+    } else {
+      const id = uuidv4();
+      setReminders((reminders) =>
+        reminders.concat({
+          id,
+          label,
+          city,
+          time,
+          color,
+          selectedDate,
+        })
+      );
+    }
+    setShowReminderModal(false);
+  };
+
+  const editReminder = (id) => {
+    setSelectedReminder(reminders.find((reminder) => reminder.id === id));
+    setShowReminderModal(true);
+  };
+
+  const deleteReminder = (id) => {
+    const foundIndex = reminders.findIndex((x) => x.id === id);
+    reminders.splice(foundIndex, 1);
+    setSelectedReminder(null);
     setShowReminderModal(false);
   };
 
@@ -201,9 +230,13 @@ export function Calendar() {
       {showReminderModal && (
         <ModalImplementation
           show={showReminderModal}
-          hide={() => setShowReminderModal(false)}
-          title={'Add Reminder'}
+          hide={() => {
+            setShowReminderModal(false);
+            setSelectedReminder(null);
+          }}
           addReminder={addReminder}
+          selectedReminder={selectedReminder}
+          deleteReminder={deleteReminder}
         />
       )}
     </div>

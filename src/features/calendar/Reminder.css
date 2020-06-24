@@ -1,0 +1,7 @@
+.reminder .svg:hover {
+  visibility: visible;
+}
+
+.reminder .svg {
+  visibility: hidden;
+}

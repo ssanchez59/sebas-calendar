@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { v4 as uuidv4 } from 'uuid';
 import Select from 'react-select';
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
@@ -59,10 +58,23 @@ const colorStyles = {
 };
 
 const ModalImplementation = (props) => {
-  const [label, setLabel] = useState('');
-  const [city, setCity] = useState(cities[0]);
-  const [color, setColor] = useState(colorOptions[2]);
-  const [time, setTime] = useState(moment().hour(0).minute(0));
+  const [id] = useState(
+    props.selectedReminder ? props.selectedReminder.id : null
+  );
+  const [label, setLabel] = useState(
+    props.selectedReminder ? props.selectedReminder.label : ''
+  );
+  const [city, setCity] = useState(
+    props.selectedReminder ? props.selectedReminder.city : cities[0]
+  );
+  const [color, setColor] = useState(
+    props.selectedReminder ? props.selectedReminder.color : colorOptions[1]
+  );
+  const [time, setTime] = useState(
+    props.selectedReminder
+      ? props.selectedReminder.time
+      : moment().hour(0).minute(0)
+  );
 
   const onTimeChange = (value) => {
     setTime(value);
@@ -71,7 +83,9 @@ const ModalImplementation = (props) => {
   return (
     <Modal show={props.show} onHide={() => props.hide()} size="sm">
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-lg">{props.title}</Modal.Title>
+        <Modal.Title id="contained-modal-title-lg">
+          {id ? 'Edit' : 'Add'} Reminder
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="row">
@@ -113,7 +127,7 @@ const ModalImplementation = (props) => {
               />
             </div>
             <div className="form-group">
-              <label>City</label>
+              <label>Color</label>
               <Select
                 defaultValue={color}
                 label="Single select"
@@ -126,10 +140,13 @@ const ModalImplementation = (props) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          onClick={() => props.addReminder(uuidv4(), label, city, time, color)}
-        >
-          Add Reminder
+        {id ? (
+          <Button onClick={() => props.deleteReminder(id)}>
+            Delete Reminder
+          </Button>
+        ) : null}
+        <Button onClick={() => props.addReminder(id, label, city, time, color)}>
+          {id ? 'Edit' : 'Add'} Reminder
         </Button>
         <Button onClick={() => props.hide()}>Close</Button>
       </Modal.Footer>
