@@ -177,14 +177,14 @@ export function Calendar() {
       });
   };
 
-  const addReminder = (id, label, city, time) => {
+  const addReminder = (id, label, city, time, color) => {
     setReminders((reminders) =>
       reminders.concat({
         id,
         selectedDate,
         label,
         city,
-        color: '#9cac7e',
+        color: color.color,
         time,
       })
     );

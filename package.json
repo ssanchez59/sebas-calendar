@@ -11,6 +11,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.0",
+    "chroma-js": "^2.1.0",
     "date-fns": "^2.14.0",
     "moment": "^2.27.0",
     "rc-time-picker": "^3.7.3",

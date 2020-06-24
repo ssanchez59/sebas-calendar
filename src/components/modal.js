@@ -5,18 +5,63 @@ import Select from 'react-select';
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
+import chroma from 'chroma-js';
 
-const cities = [
-  { label: 'Bogota', value: 'BOG' },
-  { label: 'New York', value: 'NYC' },
-  { label: 'Barcelona', value: 'BCN' },
-  { label: 'Shanghai', value: 'SHA' },
-  { label: 'Sydney', value: 'SYD' },
-];
+import { cities, colorOptions } from './data';
+
+const dot = (color = '#ccc') => ({
+  alignItems: 'center',
+  display: 'flex',
+
+  ':before': {
+    backgroundColor: color,
+    borderRadius: 10,
+    content: '" "',
+    display: 'block',
+    marginRight: 8,
+    height: 10,
+    width: 10,
+  },
+});
+
+const colorStyles = {
+  control: (styles) => ({ ...styles, backgroundColor: 'white' }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    const color = chroma(data.color);
+    return {
+      ...styles,
+      backgroundColor: isDisabled
+        ? null
+        : isSelected
+        ? data.color
+        : isFocused
+        ? color.alpha(0.1).css()
+        : null,
+      color: isDisabled
+        ? '#ccc'
+        : isSelected
+        ? chroma.contrast(color, 'white') > 2
+          ? 'white'
+          : 'black'
+        : data.color,
+      cursor: isDisabled ? 'not-allowed' : 'default',
+
+      ':active': {
+        ...styles[':active'],
+        backgroundColor:
+          !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
+      },
+    };
+  },
+  input: (styles) => ({ ...styles, ...dot() }),
+  placeholder: (styles) => ({ ...styles, ...dot() }),
+  singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
+};
 
 const ModalImplementation = (props) => {
   const [label, setLabel] = useState('');
   const [city, setCity] = useState(cities[0]);
+  const [color, setColor] = useState(colorOptions[2]);
   const [time, setTime] = useState(moment().hour(0).minute(0));
 
   const onTimeChange = (value) => {
@@ -67,11 +112,23 @@ const ModalImplementation = (props) => {
                 clearable={false}
               />
             </div>
+            <div className="form-group">
+              <label>City</label>
+              <Select
+                defaultValue={color}
+                label="Single select"
+                options={colorOptions}
+                styles={colorStyles}
+                onChange={(e) => setColor(e)}
+              />
+            </div>
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => props.addReminder(uuidv4(), label, city, time)}>
+        <Button
+          onClick={() => props.addReminder(uuidv4(), label, city, time, color)}
+        >
           Add Reminder
         </Button>
         <Button onClick={() => props.hide()}>Close</Button>
