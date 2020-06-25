@@ -8,6 +8,9 @@ import chroma from 'chroma-js';
 import axios from 'axios';
 import isSameDay from 'date-fns/isSameDay';
 import fromUnixTime from 'date-fns/fromUnixTime';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 // day Icons
 import clearSkyDay from '../assets/01d@2x.png';
@@ -118,7 +121,6 @@ const ModalImplementation = (props) => {
     //   let forecastAvailable = false;
     //   response.data.daily.forEach(function (arrayItem) {
     //     if (isSameDay(fromUnixTime(arrayItem.dt), props.selectedDate)) {
-    //       console.log('isSameDay', fromUnixTime(arrayItem.dt));
     //       setWeatherDescription(arrayItem.weather[0].main);
     //       setWeatherIcon(arrayItem.weather[0].icon);
     //       setTemperature(arrayItem.temp.day);
@@ -199,6 +201,15 @@ const ModalImplementation = (props) => {
                 className="form-control"
                 maxLength="30"
               />
+            </div>
+            <div className="form-group">
+              <label>Date</label>
+              <div>
+                <DatePicker
+                  selected={props.selectedDate}
+                  onChange={props.handleSelectedDateChange}
+                />
+              </div>
             </div>
             <div className="form-group">
               <label>Time</label>
@@ -286,6 +297,14 @@ const ModalImplementation = (props) => {
           {id ? 'Edit' : 'Add'} Reminder
         </Button>
         <Button onClick={() => props.hide()}>Close</Button>
+      </Modal.Footer>
+      <Modal.Footer>
+        <Button
+          variant="danger"
+          onClick={() => props.deleteReminders(props.selectedDate)}
+        >
+          Delete All Reminders on this Day
+        </Button>
       </Modal.Footer>
     </Modal>
   );

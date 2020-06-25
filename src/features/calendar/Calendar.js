@@ -220,6 +220,20 @@ export function Calendar() {
     setShowReminderModal(false);
   };
 
+  const deleteReminders = (selectedDate) => {
+    const toDelete = reminders.filter((reminder) => {
+      return isSameDay(reminder.selectedDate, selectedDate);
+    });
+
+    toDelete.forEach(function (arrayItem) {
+      const foundIndex = reminders.findIndex((x) => x.id === arrayItem.id);
+      reminders.splice(foundIndex, 1);
+    });
+
+    setSelectedReminder(null);
+    setShowReminderModal(false);
+  };
+
   console.log('reminders', reminders);
 
   return (
@@ -238,6 +252,11 @@ export function Calendar() {
           selectedReminder={selectedReminder}
           deleteReminder={deleteReminder}
           selectedDate={selectedDate}
+          handleSelectedDateChange={(value) => {
+            console.log('selectedDate', value);
+            setSelectedDate(value);
+          }}
+          deleteReminders={deleteReminders}
         />
       )}
     </div>
