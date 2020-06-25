@@ -67,7 +67,9 @@
     },
     "moduleFileExtensions": [
       "js",
-      "jsx"
+      "jsx",
+      "css",
+      "png"
     ],
     "moduleDirectories": [
       "node_modules"
