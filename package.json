@@ -14,6 +14,8 @@
     "bootstrap": "^4.5.0",
     "chroma-js": "^2.1.0",
     "date-fns": "^2.14.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "moment": "^2.27.0",
     "rc-time-picker": "^3.7.3",
     "react": "^16.13.1",
