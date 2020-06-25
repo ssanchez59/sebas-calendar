@@ -54,6 +54,7 @@
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
     "babel-jest": "^26.1.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest-cli": "^26.1.0",
     "react-test-renderer": "^16.13.1"
   },
@@ -61,8 +62,8 @@
     "automock": false,
     "browser": true,
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./app/tests/mocks/FileMock.js",
-      "\\.(css|less)$": "identity-obj-proxy"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|scss|less)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
       "js",
