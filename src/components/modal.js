@@ -111,30 +111,28 @@ const ModalImplementation = (props) => {
   };
 
   const weatherSetter = async (e) => {
-    const response = await axios['get'](
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${e.lat}&lon=${e.lng}&units=metric&appid=410093601e4f6e50b574cb107349b63a`
-    );
-    if (response.status === 200) {
-      let forecastAvailable = false;
-
-      response.data.daily.forEach(function (arrayItem) {
-        if (isSameDay(fromUnixTime(arrayItem.dt), props.selectedDate)) {
-          console.log('isSameDay', fromUnixTime(arrayItem.dt));
-          setWeatherDescription(arrayItem.weather[0].main);
-          setWeatherIcon(arrayItem.weather[0].icon);
-          setTemperature(arrayItem.temp.day);
-          setIsForecast(true);
-          forecastAvailable = true;
-        }
-      });
-
-      if (!forecastAvailable && response.data.current.weather.length > 0) {
-        setWeatherDescription(response.data.current.weather[0].main);
-        setWeatherIcon(response.data.current.weather[0].icon);
-        setTemperature(response.data.current.temp);
-        setIsForecast(false);
-      }
-    }
+    // const response = await axios['get'](
+    //   `https://api.openweathermap.org/data/2.5/onecall?lat=${e.lat}&lon=${e.lng}&units=metric&appid=410093601e4f6e50b574cb107349b63a`
+    // );
+    // if (response.status === 200) {
+    //   let forecastAvailable = false;
+    //   response.data.daily.forEach(function (arrayItem) {
+    //     if (isSameDay(fromUnixTime(arrayItem.dt), props.selectedDate)) {
+    //       console.log('isSameDay', fromUnixTime(arrayItem.dt));
+    //       setWeatherDescription(arrayItem.weather[0].main);
+    //       setWeatherIcon(arrayItem.weather[0].icon);
+    //       setTemperature(arrayItem.temp.day);
+    //       setIsForecast(true);
+    //       forecastAvailable = true;
+    //     }
+    //   });
+    //   if (!forecastAvailable && response.data.current.weather.length > 0) {
+    //     setWeatherDescription(response.data.current.weather[0].main);
+    //     setWeatherIcon(response.data.current.weather[0].icon);
+    //     setTemperature(response.data.current.temp);
+    //     setIsForecast(false);
+    //   }
+    // }
   };
 
   const getWeatherIcon = () => {
