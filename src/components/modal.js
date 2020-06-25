@@ -6,6 +6,8 @@ import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 import chroma from 'chroma-js';
 import axios from 'axios';
+import isSameDay from 'date-fns/isSameDay';
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 // day Icons
 import clearSkyDay from '../assets/01d@2x.png';
@@ -99,11 +101,10 @@ const ModalImplementation = (props) => {
       : moment().hour(0).minute(0)
   );
 
-  const [currentWeatherDescription, setCurrentWeatherDescription] = useState(
-    ''
-  );
-  const [currentWeatherIcon, setCurrentWeatherIcon] = useState('');
-  const [currentTemperature, setCurrentTemperature] = useState(null);
+  const [weatherDescription, setWeatherDescription] = useState('');
+  const [weatherIcon, setWeatherIcon] = useState('');
+  const [temperature, setTemperature] = useState(null);
+  const [isForecast, setIsForecast] = useState(false);
 
   const onTimeChange = (value) => {
     setTime(value);
@@ -114,50 +115,64 @@ const ModalImplementation = (props) => {
       `https://api.openweathermap.org/data/2.5/onecall?lat=${e.lat}&lon=${e.lng}&units=metric&appid=410093601e4f6e50b574cb107349b63a`
     );
     if (response.status === 200) {
-      if (response.data.current.weather.length > 0) {
-        setCurrentWeatherDescription(response.data.current.weather[0].main);
-        setCurrentWeatherIcon(response.data.current.weather[0].icon);
-        setCurrentTemperature(response.data.current.temp);
+      let forecastAvailable = false;
+
+      response.data.daily.forEach(function (arrayItem) {
+        if (isSameDay(fromUnixTime(arrayItem.dt), props.selectedDate)) {
+          console.log('isSameDay', fromUnixTime(arrayItem.dt));
+          setWeatherDescription(arrayItem.weather[0].main);
+          setWeatherIcon(arrayItem.weather[0].icon);
+          setTemperature(arrayItem.temp.day);
+          setIsForecast(true);
+          forecastAvailable = true;
+        }
+      });
+
+      if (!forecastAvailable && response.data.current.weather.length > 0) {
+        setWeatherDescription(response.data.current.weather[0].main);
+        setWeatherIcon(response.data.current.weather[0].icon);
+        setTemperature(response.data.current.temp);
+        setIsForecast(false);
       }
     }
   };
 
   const getWeatherIcon = () => {
-    if (currentWeatherIcon === '01d') {
+    if (weatherIcon === '01d') {
       return clearSkyDay;
-    } else if (currentWeatherIcon === '02d') {
+    } else if (weatherIcon === '02d') {
       return fewCloudsDay;
-    } else if (currentWeatherIcon === '03d') {
+    } else if (weatherIcon === '03d') {
       return scatteredCloudsDay;
-    } else if (currentWeatherIcon === '04d') {
+    } else if (weatherIcon === '04d') {
       return brokenCloudsDay;
-    } else if (currentWeatherIcon === '09d') {
+    } else if (weatherIcon === '09d') {
       return showerRainDay;
-    } else if (currentWeatherIcon === '10d') {
+    } else if (weatherIcon === '10d') {
       return rainDay;
-    } else if (currentWeatherIcon === '11d') {
+    } else if (weatherIcon === '11d') {
       return thunderstormDay;
-    } else if (currentWeatherIcon === '13d') {
+    } else if (weatherIcon === '13d') {
       return snowDay;
-    } else if (currentWeatherIcon === '50d') {
+    } else if (weatherIcon === '50d') {
       return mistDay;
-    } else if (currentWeatherIcon === '01n') {
+    } else if (weatherIcon === '01n') {
       return clearSkyNight;
-    } else if (currentWeatherIcon === '02n') {
+    } else if (weatherIcon === '02n') {
       return fewCloudsNight;
-    } else if (currentWeatherIcon === '03n') {
+    } else if (weatherIcon === '03n') {
       return scatteredCloudsNight;
-    } else if (currentWeatherIcon === '04n') {
+    } else if (weatherIcon === '04n') {
       return brokenCloudsNight;
-    } else if (currentWeatherIcon === '09n') {
+    } else if (weatherIcon === '09n') {
       return showerRainNight;
-    } else if (currentWeatherIcon === '10n') {
+    } else if (weatherIcon === '10n') {
       return rainNight;
-    } else if (currentWeatherIcon === '11n') {
+    } else if (weatherIcon === '11n') {
       return thunderstormNight;
-    } else if (currentWeatherIcon === '13n') {
+    } else if (weatherIcon === '13n') {
       return snowNight;
-    } else if (currentWeatherIcon === '50n') {
+    } else if (weatherIcon === '50n') {
       return mistNight;
     }
   };
@@ -166,7 +181,7 @@ const ModalImplementation = (props) => {
     weatherSetter(
       props.selectedReminder ? props.selectedReminder.city : cities[0]
     );
-  }, [props.selectedReminder]);
+  }, []);
 
   return (
     <Modal show={props.show} onHide={() => props.hide()} size="sm">
@@ -232,7 +247,10 @@ const ModalImplementation = (props) => {
               style={{ display: 'flex', flexDirection: 'column' }}
             >
               <label>
-                <b>Current Weather in {city.label}</b>
+                <b>
+                  {isForecast ? '' : 'Current'} Weather{' '}
+                  {isForecast ? 'Forecast' : ''} in {city.label}
+                </b>
               </label>
               <div
                 style={{
@@ -250,10 +268,10 @@ const ModalImplementation = (props) => {
                   }}
                 />
                 <label style={{ marginBottom: '0px', marginTop: '5px' }}>
-                  {currentWeatherDescription}
+                  {weatherDescription}
                 </label>
                 <label style={{ marginBottom: '0px', marginTop: '5px' }}>
-                  {currentTemperature} {String.fromCharCode(176)} C
+                  {temperature} {String.fromCharCode(176)} C
                 </label>
               </div>
             </div>

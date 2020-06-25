@@ -237,6 +237,7 @@ export function Calendar() {
           addReminder={addReminder}
           selectedReminder={selectedReminder}
           deleteReminder={deleteReminder}
+          selectedDate={selectedDate}
         />
       )}
     </div>
