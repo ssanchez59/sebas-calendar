@@ -36,8 +36,6 @@ import mistNight from '../assets/50n@2x.png';
 
 import { cities, colorOptions } from '../data/data';
 
-import './modal.css';
-
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
   display: 'flex',
