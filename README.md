@@ -6,5 +6,11 @@ Sebas Calendar
 
 ```sh
 npm i
-npm run start
+npm start
+```
+
+## Run Tests
+
+```sh
+npm test
 ```
