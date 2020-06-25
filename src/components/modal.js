@@ -36,6 +36,8 @@ import mistNight from '../assets/50n@2x.png';
 
 import { cities, colorOptions } from '../data/data';
 
+import './modal.css';
+
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
   display: 'flex',
@@ -208,6 +210,7 @@ const ModalImplementation = (props) => {
                 <DatePicker
                   selected={props.selectedDate}
                   onChange={props.handleSelectedDateChange}
+                  style={{ marginLeft: '5px' }}
                 />
               </div>
             </div>

@@ -22,7 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import './Calendar.css';
-import { Reminder } from './Reminder';
+import { Reminder } from '../reminder/Reminder';
 import ModalImplementation from '../../components/modal';
 
 export function Calendar() {
