@@ -34,7 +34,7 @@ import thunderstormNight from '../assets/11n@2x.png';
 import snowNight from '../assets/13n@2x.png';
 import mistNight from '../assets/50n@2x.png';
 
-import { cities, colorOptions } from './data';
+import { cities, colorOptions } from '../data/data';
 
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
