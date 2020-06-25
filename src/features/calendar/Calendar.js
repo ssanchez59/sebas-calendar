@@ -109,6 +109,7 @@ export function Calendar() {
             }`}
             key={day}
             onClick={() => onDateClick(cloneDay)}
+            style={{ overflow: 'scroll' }}
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
