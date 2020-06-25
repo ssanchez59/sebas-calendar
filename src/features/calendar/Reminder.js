@@ -1,11 +1,11 @@
 import React from 'react';
-import './Reminder.css';
+// import './Reminder.css';
 
 export function Reminder(props) {
   const prevLabel = props.label;
   const length = 20;
   var trimmedLabel =
-    prevLabel.length > length
+    prevLabel && prevLabel.length > length
       ? prevLabel.substring(0, length - 3) + '...'
       : prevLabel;
 
@@ -17,7 +17,7 @@ export function Reminder(props) {
         fontSize: '15px',
         textAlign: 'left',
         borderRadius: '5px',
-        backgroundColor: props.color.color,
+        backgroundColor: props.color && props.color.color,
         padding: '2px',
         display: 'flex',
       }}
