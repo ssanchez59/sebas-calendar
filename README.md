@@ -2,15 +2,15 @@
 
 Sebas Calendar
 
-## Usage
+## Running the App
 
 ```sh
 npm i
 npm start
 ```
 
-## Run Tests
+## Testing
 
-```sh
+```
 npm test
 ```
