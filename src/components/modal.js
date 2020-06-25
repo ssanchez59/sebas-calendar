@@ -258,7 +258,7 @@ const ModalImplementation = (props) => {
               <label>
                 <b>
                   {isForecast ? '' : 'Current'} Weather{' '}
-                  {isForecast ? 'Forecast' : ''} in {city.label}
+                  {isForecast ? 'Forecast' : ''} for {city.label}
                 </b>
               </label>
               <div
