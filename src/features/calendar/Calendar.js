@@ -103,7 +103,7 @@ export function Calendar() {
             className={`column cell ${
               !isSameMonth(day, monthStart)
                 ? 'disabled'
-                : isSameDay(day, selectedDate)
+                : isSameDay(day, currentDate)
                 ? 'selected'
                 : ''
             }`}
