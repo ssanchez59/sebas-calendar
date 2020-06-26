@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --no-cache",
+    "test": "jest --no-cache --config jest.config.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -53,6 +53,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
+    "browser-resolve": "^1.11.3",
     "identity-obj-proxy": "^3.0.0",
     "jest-cli": "^26.1.0",
     "react-test-renderer": "^16.13.1"
