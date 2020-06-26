@@ -1,5 +1,5 @@
 import React from 'react';
-import './Reminder.css';
+// import './Reminder.css';
 
 export function Reminder(props) {
   const prevLabel = props.label;
