@@ -235,7 +235,7 @@ export function Calendar() {
     setShowReminderModal(false);
   };
 
-  console.log('reminders', reminders);
+  // console.log('reminders', reminders);
 
   return (
     <div className="calendar">
@@ -254,7 +254,6 @@ export function Calendar() {
           deleteReminder={deleteReminder}
           selectedDate={selectedDate}
           handleSelectedDateChange={(value) => {
-            console.log('selectedDate', value);
             setSelectedDate(value);
           }}
           deleteReminders={deleteReminders}
