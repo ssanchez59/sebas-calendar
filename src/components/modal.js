@@ -229,6 +229,7 @@ const ModalImplementation = (props) => {
                   format={'h:mm a'}
                   use12Hours
                   inputReadOnly
+                  allowEmpty={false}
                 />
               </div>
             </div>
