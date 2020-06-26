@@ -183,7 +183,7 @@ const ModalImplementation = (props) => {
     weatherSetter(
       props.selectedReminder ? props.selectedReminder.city : cities[0]
     );
-  }, []);
+  }, [props.selectedDate]);
 
   return (
     <Modal show={props.show} onHide={() => props.hide()} size="sm">
@@ -209,7 +209,10 @@ const ModalImplementation = (props) => {
               <div>
                 <DatePicker
                   selected={props.selectedDate}
-                  onChange={props.handleSelectedDateChange}
+                  onChange={(value) => {
+                    props.handleSelectedDateChange(value);
+                    weatherSetter(city);
+                  }}
                   style={{ marginLeft: '5px' }}
                 />
               </div>
