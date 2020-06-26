@@ -1,0 +1,17 @@
+.react-datepicker__input-container input {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 16px;
+  color: #333333;
+  padding: 8px;
+}
+
+.rc-time-picker-input {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 16px;
+  color: #333333;
+  padding: 10px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
