@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --no-cache --config jest.config.js",
+    "test": "jest --no-cache",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -82,6 +82,7 @@
       "./app/tests"
     ],
     "testRegex": ".*.test.js",
-    "verbose": true
+    "verbose": true,
+    "rootDir": "../"
   }
 }
