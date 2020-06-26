@@ -5,6 +5,6 @@ import App from '../App';
 
 configure({ adapter: new Adapter() });
 
-it('renders without crashing', () => {
+it('App renders without crashing', () => {
   shallow(<App />);
 });
