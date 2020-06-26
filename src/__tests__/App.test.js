@@ -1,10 +1,7 @@
 import React from 'react';
-import { shallow, configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import ReactDOM from 'react-dom';
 import App from '../App';
-
-configure({ adapter: new Adapter() });
-
-it('App renders without crashing', () => {
-  shallow(<App />);
+it('renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<App />, div);
 });
