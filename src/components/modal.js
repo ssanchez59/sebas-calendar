@@ -98,12 +98,12 @@ const ModalImplementation = (props) => {
     props.selectedReminder ? props.selectedReminder.city : cities[0]
   );
   const [color, setColor] = useState(
-    props.selectedReminder ? props.selectedReminder.color : colorOptions[1]
+    props.selectedReminder ? props.selectedReminder.color : colorOptions[0]
   );
   const [time, setTime] = useState(
     props.selectedReminder
       ? props.selectedReminder.time
-      : moment().hour(0).minute(0)
+      : moment().hour(0).minute(0).format('hh:mm:ss a')
   );
 
   const [weatherDescription, setWeatherDescription] = useState('');
@@ -112,7 +112,8 @@ const ModalImplementation = (props) => {
   const [isForecast, setIsForecast] = useState(false);
 
   const onTimeChange = (value) => {
-    setTime(value);
+    const tempA = value.format('hh:mm:ss a');
+    setTime(tempA);
   };
 
   const weatherSetter = async (e) => {
@@ -122,7 +123,9 @@ const ModalImplementation = (props) => {
     if (response.status === 200) {
       let forecastAvailable = false;
       response.data.daily.forEach(function (arrayItem) {
-        if (isSameDay(fromUnixTime(arrayItem.dt), props.selectedDate)) {
+        if (
+          isSameDay(fromUnixTime(arrayItem.dt), Date.parse(props.selectedDate))
+        ) {
           setWeatherDescription(arrayItem.weather[0].main);
           setWeatherIcon(arrayItem.weather[0].icon);
           setTemperature(arrayItem.temp.day);
@@ -208,7 +211,7 @@ const ModalImplementation = (props) => {
               <label>Date</label>
               <div>
                 <DatePicker
-                  selected={props.selectedDate}
+                  selected={Date.parse(props.selectedDate)}
                   onChange={(value) => {
                     props.handleSelectedDateChange(value);
                     weatherSetter(city);
@@ -222,7 +225,7 @@ const ModalImplementation = (props) => {
               <div>
                 <TimePicker
                   defaultValue={moment().hour(0).minute(0)}
-                  value={time}
+                  value={moment(time, 'hh:mm:ss a')}
                   showSecond={false}
                   className="xxx"
                   onChange={onTimeChange}
@@ -308,7 +311,7 @@ const ModalImplementation = (props) => {
       <Modal.Footer>
         <Button
           variant="danger"
-          onClick={() => props.deleteReminders(props.selectedDate)}
+          onClick={() => props.deleteReminders(Date.parse(props.selectedDate))}
         >
           Delete All Reminders on this Day
         </Button>
