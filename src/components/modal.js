@@ -98,7 +98,7 @@ const ModalImplementation = (props) => {
     props.selectedReminder ? props.selectedReminder.city : cities[0]
   );
   const [color, setColor] = useState(
-    props.selectedReminder ? props.selectedReminder.color : colorOptions[1]
+    props.selectedReminder ? props.selectedReminder.color : colorOptions[0]
   );
   const [time, setTime] = useState(
     props.selectedReminder

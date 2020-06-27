@@ -190,7 +190,7 @@ export function Calendar() {
   const addReminder = (id, label, city, time, color) => {
     const stringDate = selectedDate.toString();
     dispatch(
-      addReminderAsync({
+      addReminderAction({
         id,
         label,
         city,
