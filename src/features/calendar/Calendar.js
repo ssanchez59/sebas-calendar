@@ -169,7 +169,6 @@ export function Calendar() {
         const temp1 = moment(a.time, 'hh:mm:ss a');
         const temp2 = moment(b.time, 'hh:mm:ss a');
         const res = temp1 - temp2;
-        console.log('res', res);
         return res;
       })
       .map((reminder, index) => {
@@ -227,8 +226,6 @@ export function Calendar() {
     setSelectedReminder(null);
     setShowReminderModal(false);
   };
-
-  console.log('reminders', reminders);
 
   return (
     <div className="calendar">

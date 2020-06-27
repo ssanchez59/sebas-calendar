@@ -12,7 +12,6 @@ export const counterSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.value += 1;
-      console.log('state.value', state.value);
     },
     decrement: (state) => {
       state.value -= 1;

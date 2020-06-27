@@ -113,8 +113,6 @@ const ModalImplementation = (props) => {
 
   const onTimeChange = (value) => {
     const tempA = value.format('hh:mm:ss a');
-    const temp1 = moment(tempA, 'hh:mm:ss a');
-    console.log('tempA', tempA);
     setTime(tempA);
   };
 
