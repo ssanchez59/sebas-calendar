@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import {
   addReminderAction,
+  addReminderAsync,
   deleteReminderAction,
   deleteRemindersAction,
   selectReminders,
@@ -189,7 +190,7 @@ export function Calendar() {
   const addReminder = (id, label, city, time, color) => {
     const stringDate = selectedDate.toString();
     dispatch(
-      addReminderAction({
+      addReminderAsync({
         id,
         label,
         city,
