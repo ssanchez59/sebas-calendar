@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+import isSameDay from 'date-fns/isSameDay';
 
 export const calendarSlice = createSlice({
   name: 'reminders',
@@ -32,18 +33,26 @@ export const calendarSlice = createSlice({
       arr.splice(foundIndex, 1);
       state.value = arr;
     },
-    // decrement: (state) => {
-    //   state.value -= 1;
-    // },
-    // incrementByAmount: (state, action) => {
-    //   state.value += action.payload;
-    // },
+    deleteRemindersAction: (state, action) => {
+      const { selectedDate } = action.payload;
+      let arr = state.value;
+      const toDelete = arr.filter((reminder) => {
+        return isSameDay(Date.parse(reminder.selectedDate), selectedDate);
+      });
+
+      toDelete.forEach(function (arrayItem) {
+        const foundIndex = arr.findIndex((x) => x.id === arrayItem.id);
+        arr.splice(foundIndex, 1);
+      });
+      state.value = arr;
+    },
   },
 });
 
 export const {
   addReminderAction,
   deleteReminderAction,
+  deleteRemindersAction,
 } = calendarSlice.actions;
 
 // // The function below is called a thunk and allows us to perform async logic. It

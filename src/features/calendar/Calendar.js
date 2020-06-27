@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   addReminderAction,
   deleteReminderAction,
-  incrementByAmount,
-  incrementAsync,
+  deleteRemindersAction,
   selectReminders,
 } from './calendarSlice';
 
@@ -167,9 +166,11 @@ export function Calendar() {
         return isSameDay(Date.parse(reminder.selectedDate), day);
       })
       .sort((a, b) => {
-        const temp1 = moment(a, 'hh:mm:ss a');
-        const temp2 = moment(b, 'hh:mm:ss a');
-        return temp1 - temp2;
+        const temp1 = moment(a.time, 'hh:mm:ss a');
+        const temp2 = moment(b.time, 'hh:mm:ss a');
+        const res = temp1 - temp2;
+        console.log('res', res);
+        return res;
       })
       .map((reminder, index) => {
         return (
@@ -217,14 +218,11 @@ export function Calendar() {
   };
 
   const deleteReminders = (selectedDate) => {
-    const toDelete = reminders.filter((reminder) => {
-      return isSameDay(Date.parse(reminder.selectedDate), selectedDate);
-    });
-
-    toDelete.forEach(function (arrayItem) {
-      const foundIndex = reminders.findIndex((x) => x.id === arrayItem.id);
-      reminders.splice(foundIndex, 1);
-    });
+    dispatch(
+      deleteRemindersAction({
+        selectedDate,
+      })
+    );
 
     setSelectedReminder(null);
     setShowReminderModal(false);
