@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import {
+  decrement,
+  addReminderAction,
+  incrementByAmount,
+  incrementAsync,
+  selectReminders,
+} from './calendarSlice';
+
 import moment from 'moment';
-import { v4 as uuidv4 } from 'uuid';
 
 //fns imports
 import startOfMonth from 'date-fns/startOfMonth';
@@ -26,9 +35,11 @@ import { Reminder } from '../reminder/Reminder';
 import ModalImplementation from '../../components/modal';
 
 export function Calendar() {
+  const reminders = useSelector(selectReminders);
+  const dispatch = useDispatch();
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [reminders, setReminders] = useState([]);
   const [selectedReminder, setSelectedReminder] = useState(null);
 
   const [showReminderModal, setShowReminderModal] = useState(false);
@@ -153,19 +164,12 @@ export function Calendar() {
   const getReminders = (day) => {
     return reminders
       .filter((reminder) => {
-        return isSameDay(reminder.selectedDate, day);
+        return isSameDay(Date.parse(reminder.selectedDate), day);
       })
       .sort((a, b) => {
-        const tempA = a.time.format('hh:mm:ss a');
-        const tempB = b.time.format('hh:mm:ss a');
-
-        const temp1 = moment(tempA, 'hh:mm:ss a');
-        const temp2 = moment(tempB, 'hh:mm:ss a');
-
-        // const test = beginningTime.isBefore(endTime);
-        const test = temp1 - temp2;
-
-        return test;
+        const temp1 = moment(a, 'hh:mm:ss a');
+        const temp2 = moment(b, 'hh:mm:ss a');
+        return temp1 - temp2;
       })
       .map((reminder, index) => {
         return (
@@ -183,29 +187,17 @@ export function Calendar() {
   };
 
   const addReminder = (id, label, city, time, color) => {
-    if (id) {
-      const foundIndex = reminders.findIndex((x) => x.id === id);
-      reminders[foundIndex] = {
+    const stringDate = selectedDate.toString();
+    dispatch(
+      addReminderAction({
         id,
         label,
         city,
         time,
         color,
-        selectedDate,
-      };
-    } else {
-      const id = uuidv4();
-      setReminders((reminders) =>
-        reminders.concat({
-          id,
-          label,
-          city,
-          time,
-          color,
-          selectedDate,
-        })
-      );
-    }
+        selectedDate: stringDate,
+      })
+    );
     setShowReminderModal(false);
   };
 
@@ -223,7 +215,7 @@ export function Calendar() {
 
   const deleteReminders = (selectedDate) => {
     const toDelete = reminders.filter((reminder) => {
-      return isSameDay(reminder.selectedDate, selectedDate);
+      return isSameDay(Date.parse(reminder.selectedDate), selectedDate);
     });
 
     toDelete.forEach(function (arrayItem) {
@@ -235,7 +227,7 @@ export function Calendar() {
     setShowReminderModal(false);
   };
 
-  // console.log('reminders', reminders);
+  console.log('reminders', reminders);
 
   return (
     <div className="calendar">
