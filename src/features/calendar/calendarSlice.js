@@ -25,6 +25,13 @@ export const calendarSlice = createSlice({
       }
       state.value = arr;
     },
+    deleteReminderAction: (state, action) => {
+      const { id } = action.payload;
+      let arr = state.value;
+      const foundIndex = arr.findIndex((x) => x.id === id);
+      arr.splice(foundIndex, 1);
+      state.value = arr;
+    },
     // decrement: (state) => {
     //   state.value -= 1;
     // },
@@ -34,7 +41,10 @@ export const calendarSlice = createSlice({
   },
 });
 
-export const { addReminderAction } = calendarSlice.actions;
+export const {
+  addReminderAction,
+  deleteReminderAction,
+} = calendarSlice.actions;
 
 // // The function below is called a thunk and allows us to perform async logic. It
 // // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This

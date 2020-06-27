@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  decrement,
   addReminderAction,
+  deleteReminderAction,
   incrementByAmount,
   incrementAsync,
   selectReminders,
@@ -207,8 +207,11 @@ export function Calendar() {
   };
 
   const deleteReminder = (id) => {
-    const foundIndex = reminders.findIndex((x) => x.id === id);
-    reminders.splice(foundIndex, 1);
+    dispatch(
+      deleteReminderAction({
+        id,
+      })
+    );
     setSelectedReminder(null);
     setShowReminderModal(false);
   };
